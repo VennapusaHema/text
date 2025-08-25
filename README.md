@@ -1,1 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Dental Care</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      scroll-behavior: smooth;
+      background: #f6f9fc;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    nav {
+      background: transparent;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    nav.scrolled {
+      background: #008cba;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    nav h1 {
+      color: white;
+      margin: 0;
+      font-size: 26px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    nav ul li {
+      margin-left: 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      position: relative;
+    }
+    nav ul li a::after {
+      content: "";
+      width: 0;
+      height: 2px;
+      background: yellow;
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      transition: 0.3s;
+    }
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    #home {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('https://img.freepik.com/free-photo/dentist-tools-dental-clinic_1150-19613.jpg') no-repeat center center/cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    #home h2 {
+      font-size: 60px;
+      margin: 0;
+      animation: slideDown 1.2s ease forwards;
+    }
+    #home p {
+      font-size: 20px;
+      margin-top: 10px;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 0.5s;
+    }
+    #home button {
+      margin-top: 20px;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      background: yellow;
+      font-size: 18px;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    /* Floating tooth icon */
+    .tooth {
+      position: absolute;
+      width: 60px;
+      bottom: 20px;
+      animation: float 4s infinite ease-in-out;
+    }
+
+    /* About Us */
+    #aboutus {
+      background: #fff;
+      padding: 100px 50px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+    #aboutus.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #aboutus img {
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+    }
+    #aboutus img:hover {
+      transform: scale(1.05) rotate(1deg);
+    }
+
+    /* Services - Flip Cards */
+    #services {
+      background: #e6f7ff;
+      padding: 100px 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+    .flip-card {
+      background: transparent;
+      width: 100%;
+      height: 320px;
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      backface-visibility: hidden;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    .flip-card-front {
+      background: white;
+    }
+    .flip-card-front img {
+      width: 100%;
+      height: 200px;
+      border-radius: 15px 15px 0 0;
+    }
+    .flip-card-back {
+      background: #008cba;
+      color: white;
+      transform: rotateY(180deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Contact */
+    #contactus {
+      background: #fff;
+      padding: 100px 50px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+    #contactus.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    form input, form textarea {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    form button {
+      background: #008cba;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    form button:hover {
+      background: #005f73;
+    }
+
+    /* Footer */
+    footer {
+      background: #008cba;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from { transform: translateY(-100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <h1>DentalCare+</h1>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#aboutus">About Us</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contactus">Contact Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="home">
+    <h2>Smile Brighter, Live Better</h2>
+    <p>Advanced Dental Care with Gentle Touch</p>
+    <button>Book Appointment</button>
+    <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" class="tooth">
+  </section>
+
+  <!-- About -->
+  <section id="aboutus">
+    <h2>About Us</h2>
+    <p>We combine modern technology and expert hands to deliver painless, advanced dental treatments.</p>
+    <img src="https://img.freepik.com/free-photo/dentist-examining-patient-s-teeth_329181-2187.jpg" width="400px">
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <h2 style="grid-column: span 3;">Our Services</h2>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://img.freepik.com/free-photo/close-up-dentist-treating-patient-teeth_1157-30551.jpg">
+          <h3>Teeth Cleaning</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Deep cleaning with advanced tools for a sparkling smile.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://img.freepik.com/free-photo/dentist-s-treating-patient_1157-29923.jpg">
+          <h3>Root Canal</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Safe, painless root canal with precision equipment.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://img.freepik.com/free-photo/dentist-treating-patient_1157-30460.jpg">
+          <h3>Cosmetic Dentistry</h3>
+        </div>
+        <div class="flip-card-back">
+          <p>Smile makeovers with modern aesthetic treatments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contactus">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="4" placeholder="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 DentalCare+ | Designed with ❤️</p>
+  </footer>
+
+  <script>
+    // Navbar color change on scroll
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", () => {
+      navbar.classList.toggle("scrolled", window.scrollY > 50);
+    });
+
+    // Scroll animations
+    const sections = document.querySelectorAll("#aboutus, #contactus");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(sec => observer.observe(sec));
+  </script>
+</body>
+</html>
 # text
